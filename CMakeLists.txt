@@ -1,0 +1,19 @@
+cmake_minimum_required(VERSION 3.0)
+project(libhttproute)
+set(headers
+	defines.h
+	match.h
+	route.h
+	router.h
+)
+set(sources
+	match.cpp
+	route.cpp
+	router.cpp
+)
+add_library(
+	${PROJECT_NAME}
+	STATIC
+	${headers}
+	${sources}
+)
