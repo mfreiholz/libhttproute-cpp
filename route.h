@@ -1,12 +1,13 @@
 #pragma once
 
 #include <map>
+#include <memory>
 #include <string>
 #include "defines.h"
 
 LIBHTTPROUTE_NS_BEGIN
 
-class HttpRequest
+class HttpServerRequest
 {
 public:
 	const std::string& getMethod() const = 0;
@@ -32,7 +33,22 @@ public:
 class Matcher
 {
 public:
-	virtual bool match(PWebRequest& req, RouteMatch& rm) const = 0;
+	virtual bool match(const HttpServerRequest& req, Match& rm) const = 0;
+};
+
+class Route
+{
+public:
+	Route();
+	~Route();
+
+	Route& byMatcher(std::shared_ptr<Matcher> matcher);
+
+	Route& withHandler(std::shared_ptr<Handler> handler);
+
+private:
+	class Private;
+	std::unique_ptr<Private> d;
 };
 
 LIBHTTPROUTE_NS_END

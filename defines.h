@@ -3,11 +3,11 @@
 /*
 How to use classes:
 ```cpp
-MF_NS(route)::Router r;
+HR_NS::Router r;
 r.func();
 ```
 */
 
-#define LIBHTTPROUTE_NS_BEGIN namespace mf { namespace route {
+#define LIBHTTPROUTE_NS_BEGIN namespace mf { namespace httproute {
 #define LIBHTTPROUTE_NS_END }}
-#define MF_NS(X) ::mf::X
+#define HR_NS(X) ::mf::httproute
