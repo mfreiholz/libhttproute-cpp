@@ -2,8 +2,12 @@ cmake_minimum_required(VERSION 3.0)
 project(libhttproute)
 set(headers
 	defines.h
+	http_server_request.h
 	match.h
 	route.h
+	route_match.h
+	route_handler.h
+	route_matcher.h
 	router.h
 )
 set(sources
