@@ -1,11 +1,10 @@
 #pragma once
 
 #include <string>
-#include <regex>
+#include <memory>
 #include "defines.h"
 
 LIBHTTPROUTE_NS_BEGIN
-class Match;
 
 class MatchTplGroup
 {
@@ -28,7 +27,7 @@ public:
 		\pre matchHost != matchPath
 		\throw Exception
 	*/
-	MatchRouteRegexp(const std::wstring& tpl, bool matchHost, bool matchPath);
+	MatchRouteRegexp(const std::string& tpl, bool matchHost, bool matchPath);
 	~MatchRouteRegexp();
 
 	/*
@@ -37,14 +36,13 @@ public:
 
 		\thread-safe
 	*/
-	bool match(const HttpServerRequest& req, Match& m) const noexcept;
+	bool match(const HttpServerRequest& req, RouteMatch& m) const noexcept;
 
 private:
-	std::string _tpl;
-	bool _matchHost = false;
-	bool _matchPath = false;
-	std::vector<MatchTplGroup> _groups;
-	std::regex _rx;
+	class Private;
+	std::unique_ptr<Private> d;
+
+
 };
 
 LIBHTTPROUTE_NS_END
