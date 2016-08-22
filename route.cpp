@@ -58,6 +58,12 @@ Route& Route::withHandler(std::shared_ptr<RouteHandler> handler)
 	return *this;
 }
 
+Route& Route::withHandlerFunc(RouteHandlerFunc fn)
+{
+	d->handler = std::make_shared<RouteHandlerFuncImpl>(fn);
+	return *this;
+}
+
 std::shared_ptr<RouteHandler> Route::handler() const
 {
 	return d->handler;

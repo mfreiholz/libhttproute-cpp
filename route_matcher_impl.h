@@ -28,7 +28,7 @@ public:
 
 	virtual bool match(const HttpServerRequest& req, RouteMatch& rm) const
 	{
-		return req.getMethod() == _method;
+		return req.getMethod().compare(_method) == 0;
 	}
 
 private:
@@ -75,7 +75,7 @@ public:
 			{
 				for (const auto& val : _values)
 				{
-					if (hval == val)
+					if (hval.compare(val) == 0)
 						return true;
 				}
 			}
@@ -180,6 +180,17 @@ private:
 
 
 /*
+	Adds a matcher for URL query values.
+	It accepts a sequence of key/value pairs.
+	Values may define variables.
+
+	For example:
+	...
+
+	The above route will only match if the URL contains the defined queries values, e.g.: ?foo=bar
+	It the value is an empty string, it will match any value if the key is set.
+
+	\todo Make it possible to use RegExp as value, e.g.: h.insert("id", "{id:[0-9]+}");
 */
 class RouteQueryParamsMatcher : public RouteMatcher
 {
@@ -207,6 +218,39 @@ public:
 
 private:
 	std::map<std::string, std::string> _params;
+};
+
+
+/*
+*/
+class RouteSchemeMatcher : public RouteMatcher
+{
+public:
+	RouteSchemeMatcher(const std::vector<std::string>& schemes) :
+		_schemes(schemes)
+	{}
+
+	RouteSchemeMatcher(const std::string& scheme) :
+		_schemes()
+	{
+		_schemes.push_back(scheme);
+	}
+
+	virtual ~RouteSchemeMatcher()
+	{}
+
+	virtual bool match(const HttpServerRequest& req, RouteMatch& rm) const
+	{
+		for (const auto& scheme : _schemes)
+		{
+			if (scheme.compare(req.getScheme()) == 0)
+				return true;
+		}
+		return false;
+	}
+
+private:
+	std::vector<std::string> _schemes;
 };
 
 LIBHTTPROUTE_NS_END

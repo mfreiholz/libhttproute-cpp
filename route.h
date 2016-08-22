@@ -2,6 +2,7 @@
 
 #include <memory>
 #include "defines.h"
+#include "route_handler.h"
 
 LIBHTTPROUTE_NS_BEGIN
 
@@ -14,6 +15,7 @@ public:
 	Route& byMatcher(std::shared_ptr<RouteMatcher> matcher);
 
 	Route& withHandler(std::shared_ptr<RouteHandler> handler);
+	Route& withHandlerFunc(RouteHandlerFunc fn);
 	std::shared_ptr<RouteHandler> handler() const;
 
 	virtual bool matches(const HttpServerRequest& req, RouteMatch& rm) const;

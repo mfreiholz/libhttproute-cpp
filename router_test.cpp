@@ -9,6 +9,7 @@ int main(int argc, char** argv)
 
 	auto& r = router.newRoute();
 	r.byMatcher(std::make_shared<HR_NS::RouteMethodMatcher>("GET"));
+	r.byMatcher(std::make_shared<HR_NS::RoutePathPrefixMatcher>("/service"));
 
 	return 0;
 }
