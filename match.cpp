@@ -1,11 +1,22 @@
 #include <regex>
 #include <vector>
 #include "match.h"
+#include "route_match.h"
 #include "http_server_request.h"
 
 LIBHTTPROUTE_NS_BEGIN
 
 /****************** MatchRouteRegexp *****************************************/
+
+class MatchTplGroup
+{
+public:
+	int begin = -1;
+	int end = -1;
+	std::string group;
+	std::string name;
+	std::string validation;
+};
 
 class MatchRouteRegexp::Private
 {
@@ -81,12 +92,70 @@ public:
 	}
 
 	void buildRegexp() //throws Exception
-	{}
+	{
+		std::string str;
+		if (_groups.size() <= 0)
+		{
+			_rx = std::regex(_tpl); //TODO escape `_tpl`
+			return;
+		}
+
+		size_t gindex = 0;
+		for (size_t i = 0; i < _tpl.length();)
+		{
+			if (gindex < _groups.size() && i == _groups[gindex].begin)
+			{
+				const auto& g = _groups[gindex];
+				if (g.validation.size() > 0)
+				{
+					str.append("(");
+					str.append(g.validation);
+					str.append(")");
+				}
+				else
+				{
+					if (_matchHost)
+					{
+						str.append("(");
+						str.append("[^.]+d");
+						str.append(")");
+					}
+					else if (_matchPath)
+					{
+						str.append("(");
+						str.append("[^/]+");
+						str.append(")");
+					}
+				}
+				i = g.end + 1;
+				gindex++;
+			}
+			else
+			{
+				str += _tpl.at(i); //TODO escape `_tpl[i]`
+				i++;
+			}
+		}
+		_rx = std::regex(str);
+		//if (!_rx.valid())
+		//	throw Exception("")
+	}
 
 	bool matchString(const std::string& s, RouteMatch& rm)
 	{
 		auto regex = _rx;
-		return false;
+		std::smatch sm;
+		if (!std::regex_match(s, sm, regex))
+		{
+			return false;
+		}
+		for (size_t i = 0; i < _groups.size(); ++i)
+		{
+			const auto k = _groups[i].name;
+			const auto v = sm.str(i + 1);
+			rm.vars.insert(std::pair<std::string, std::string>(k, v));
+		}
+		return true;
 	}
 
 public:
@@ -113,21 +182,21 @@ MatchRouteRegexp::MatchRouteRegexp(const std::string& tpl, bool matchHost, bool 
 MatchRouteRegexp::~MatchRouteRegexp()
 {}
 
-bool MatchRouteRegexp::match(const HttpServerRequest& req, RouteMatch& m) const noexcept
+bool MatchRouteRegexp::match(const HttpServerRequest& req, RouteMatch& rm) const noexcept
 {
 	if (d->_matchHost)
 	{
 		std::string host = req.getHost();
-		int pos;
+		size_t pos;
 		if ((pos = host.find(':')) != std::string::npos)
 		{
 			host = host.substr(pos);
 		}
-		return true;//matchString(host, rm);
+		return d->matchString(host, rm);
 	}
 	else if (d->_matchPath)
 	{
-		return true;//matchString(req.getPath(), rm);
+		return d->matchString(req.getPath(), rm);
 	}
 	return false;
 }

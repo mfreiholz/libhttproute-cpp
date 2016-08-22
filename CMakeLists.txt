@@ -8,12 +8,14 @@ set(headers
 	route_match.h
 	route_handler.h
 	route_matcher.h
+	route_matcher_impl.h
 	router.h
 )
 set(sources
 	match.cpp
 	route.cpp
 	router.cpp
+	router_test.cpp
 )
 add_library(
 	${PROJECT_NAME}

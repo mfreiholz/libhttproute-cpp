@@ -36,6 +36,7 @@ public:
 
 public:
 	std::list<std::shared_ptr<RouteMatcher> > matchers;
+	std::shared_ptr<RouteHandler> handler;
 };
 
 Route::Route() :
@@ -53,7 +54,13 @@ Route& Route::byMatcher(std::shared_ptr<RouteMatcher> matcher)
 
 Route& Route::withHandler(std::shared_ptr<RouteHandler> handler)
 {
+	d->handler = handler;
 	return *this;
+}
+
+std::shared_ptr<RouteHandler> Route::handler() const
+{
+	return d->handler;
 }
 
 bool Route::matches(const HttpServerRequest& req, RouteMatch& rm) const

@@ -7,7 +7,7 @@
 
 #define LIBHTTPROUTE_NS_BEGIN namespace mf { namespace httproute {
 #define LIBHTTPROUTE_NS_END }}
-#define HR_NS(X) ::mf::httproute
+#define HR_NS ::mf::httproute
 
 /* declarations */
 
@@ -17,7 +17,7 @@ class RouteMatcher;
 class RouteHandler;
 class RouteMatch;
 
-class Exception : public std::exception
+class Exception : public ::std::exception
 {
 public:
 	explicit Exception(const std::string& message) noexcept;

@@ -6,16 +6,6 @@
 
 LIBHTTPROUTE_NS_BEGIN
 
-class MatchTplGroup
-{
-public:
-	int begin = -1;
-	int end = -1;
-	std::string group;
-	std::string name;
-	std::string validation;
-};
-
 /*
 	builds a single big RegExp to match against host or path of current HTTP
 	request.
@@ -41,8 +31,6 @@ public:
 private:
 	class Private;
 	std::unique_ptr<Private> d;
-
-
 };
 
 LIBHTTPROUTE_NS_END
