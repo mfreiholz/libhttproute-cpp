@@ -215,6 +215,19 @@ TEST(Main, QueryMatcher)
 	ASSERT_TRUE(m.match(req, rm));
 }
 
+TEST(Main, SchemeMatcher)
+{
+	HR_NS::RouteSchemeMatcher m(std::vector<std::string> { "http" });
+
+	HttpServerRequestTest req("GET", "/", "example.de", "http");
+	HR_NS::RouteMatch rm;
+	ASSERT_TRUE(m.match(req, rm));
+
+	HttpServerRequestTest req2("GET", "/", "example.de", "https");
+	HR_NS::RouteMatch rm2;
+	ASSERT_FALSE(m.match(req2, rm2));
+}
+
 TEST(Main, Router)
 {
 	HR_NS::Router router;
