@@ -117,7 +117,7 @@ public:
 					if (_matchHost)
 					{
 						str.append("(");
-						str.append("[^.]+d");
+						str.append("[^.]+");
 						str.append(")");
 					}
 					else if (_matchPath)

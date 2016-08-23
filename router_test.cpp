@@ -173,6 +173,48 @@ TEST(Main, HeaderMatcher2)
 	ASSERT_TRUE(m.match(req, rm));
 }
 
+TEST(Main, HostMatcher)
+{
+	HR_NS::RouteHostMatcher m("www.example.de");
+
+	HttpServerRequestTest req("GET", "/", "www.example.de");
+	HR_NS::RouteMatch rm;
+	ASSERT_TRUE(m.match(req, rm));
+}
+
+TEST(Main, HostMatcher2)
+{
+	HR_NS::RouteHostMatcher m("{subdomain}.example.de");
+
+	HttpServerRequestTest req("GET", "/", "sub1.example.de");
+	HR_NS::RouteMatch rm;
+	ASSERT_TRUE(m.match(req, rm));
+	ASSERT_STREQ(rm.vars.find("subdomain")->second.c_str(), "sub1");
+}
+
+TEST(Main, HostMatcher3)
+{
+	HR_NS::RouteHostMatcher m("{part1:[a-z]+}.example.de");
+
+	HttpServerRequestTest req("GET", "/", "one.example.de");
+	HR_NS::RouteMatch rm;
+	ASSERT_TRUE(m.match(req, rm));
+
+	HttpServerRequestTest req2("GET", "/", "one1.example.de");
+	HR_NS::RouteMatch rm2;
+	ASSERT_FALSE(m.match(req2, rm2));
+}
+
+TEST(Main, QueryMatcher)
+{
+	HR_NS::RouteQueryParamsMatcher m(std::map<std::string, std::string> {std::pair<std::string, std::string>("foo", "bar")});
+
+	HttpServerRequestTest req("GET", "/");
+	req._params.insert(std::pair<std::string, std::vector<std::string> >("foo", std::vector<std::string> {"bar"}));
+	HR_NS::RouteMatch rm;
+	ASSERT_TRUE(m.match(req, rm));
+}
+
 TEST(Main, Router)
 {
 	HR_NS::Router router;
