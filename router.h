@@ -9,15 +9,15 @@ class Route;
 class Router
 {
 public:
-	Router() noexcept;
+	Router();
 	~Router();
 
-	Route& newRoute() noexcept;
+	Route& newRoute();
 
 	/*
 		\return Returns `true`, if a Route for the request has been found, otherwise `false`.
 	*/
-	bool handleRequest(const HttpServerRequest& req) noexcept;
+	bool handleRequest(const HttpServerRequest& req);
 
 private:
 	class Private;

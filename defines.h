@@ -20,15 +20,20 @@ class RouteMatch;
 class Exception : public ::std::exception
 {
 public:
-	explicit Exception(const std::string& message) noexcept;
-	virtual ~Exception();
+	Exception(const std::string& message) :
+		std::exception(),
+		_message(message)
+	{}
 
-	virtual const std::string& message() const noexcept
+	virtual ~Exception()
+	{}
+
+	virtual const std::string& message() const
 	{
 		return _message;
 	}
 
-	virtual const char* what() const noexcept
+	virtual const char* what() const
 	{
 		return _message.c_str();
 	}

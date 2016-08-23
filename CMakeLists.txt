@@ -15,7 +15,6 @@ set(sources
 	match.cpp
 	route.cpp
 	router.cpp
-	router_test.cpp
 )
 add_library(
 	${PROJECT_NAME}
@@ -23,3 +22,18 @@ add_library(
 	${headers}
 	${sources}
 )
+
+# unit test
+include_directories(../googletest/googletest/include)
+add_executable(
+	${PROJECT_NAME}_test
+	${headers}
+	${sources}
+	router_test.cpp
+)
+if(WIN32)
+	target_link_libraries(
+		${PROJECT_NAME}_test
+		../../googletest/googletest/msvc/gtest/Debug/gtestd
+	)
+endif(WIN32)

@@ -12,21 +12,21 @@ public:
 	std::list<std::shared_ptr<Route> > routes;
 };
 
-Router::Router() noexcept :
+Router::Router() :
 	d(std::make_unique<Private>())
 {}
 
 Router::~Router()
 {}
 
-Route& Router::newRoute() noexcept
+Route& Router::newRoute()
 {
 	auto r = std::make_shared<Route>();
 	d->routes.push_back(r);
 	return *r.get();
 }
 
-bool Router::handleRequest(const HttpServerRequest& req) noexcept
+bool Router::handleRequest(const HttpServerRequest& req)
 {
 	try
 	{
@@ -58,12 +58,15 @@ bool Router::handleRequest(const HttpServerRequest& req) noexcept
 	}
 	catch (Exception& e)
 	{
+		throw e;
 	}
 	catch (std::exception& e)
 	{
+		throw e;
 	}
 	catch (...)
 	{
+		throw;
 	}
 	return false;
 }
