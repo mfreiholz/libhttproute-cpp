@@ -77,7 +77,7 @@ public:
 			g.end = indices[i + 1];
 			g.group = _tpl.substr(g.begin, g.end + 1 - g.begin);
 
-			int pos = std::string::npos;
+			size_t pos = std::string::npos;
 			if ((pos = g.group.find(':')) != std::string::npos)
 			{
 				g.name = g.group.substr(1, pos - 1);

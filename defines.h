@@ -33,10 +33,10 @@ public:
 		return _message;
 	}
 
-	virtual const char* what() const
+	/*virtual const char* what() const
 	{
 		return _message.c_str();
-	}
+	}*/
 
 private:
 	std::string _message;
