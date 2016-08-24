@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 project(libhttproute)
+
 if(CMAKE_COMPILER_IS_GNUCC)
 	# GCC 4.8.4 C++11
 	#set(CMAKE_CXX_FLAGS "-std=c++11")
@@ -10,6 +11,8 @@ if(CMAKE_COMPILER_IS_GNUCC)
 	# Strict flags
 	#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -pedantic -Wextra")
 endif(CMAKE_COMPILER_IS_GNUCC)
+
+# basic library sources
 set(headers
 	defines.h
 	http_server_request.h
@@ -43,11 +46,6 @@ if(WIN32)
 	target_link_libraries(
 		${PROJECT_NAME}_test
 		${PROJECT_NAME}
-	)
-endif(WIN32)
-if(WIN32)
-	target_link_libraries(
-		${PROJECT_NAME}_test
 		../../googletest/googletest/msvc/gtest/Debug/gtestd
 	)
 endif(WIN32)
