@@ -1,6 +1,7 @@
 #include "defines.h"
 #include "router.h"
 #include "route.h"
+#include "route_handler.h"
 #include "route_matcher_impl.h"
 #include "gtest/gtest.h"
 
@@ -86,7 +87,7 @@ public:
 	std::map<std::string, std::vector<std::string> > _params;
 };
 
-/****************** Tests ****************************************************/
+/****************** Matcher Tests ********************************************/
 
 TEST(Main, MethodMatcher)
 {
@@ -237,16 +238,46 @@ TEST(Main, SchemeMatcher)
 	ASSERT_FALSE(m.match(req2, rm2));
 }
 
+/****************** Router Tests *********************************************/
+
+class TestRouteHandler : public HR_NS::RouteHandler
+{
+public:
+	virtual void handle(const HR_NS::HttpServerRequest& req, const HR_NS::RouteMatch& m)
+	{}
+};
+
 TEST(Main, Router)
 {
 	HR_NS::Router router;
 
-	auto& r = router.newRoute();
-	r.byMatcher(std::make_shared<HR_NS::RouteMethodMatcher>("GET"));
-	r.byMatcher(std::make_shared<HR_NS::RoutePathPrefixMatcher>("/service"));
+	auto h1 = std::make_shared<TestRouteHandler>();
+	router.newRoute()
+	.byMatcher(std::make_shared<HR_NS::RouteMethodMatcher>("GET"))
+	.byMatcher(std::make_shared<HR_NS::RoutePathPrefixMatcher>("/service"))
+	.withHandler(h1);
 
-	EXPECT_EQ(1, 1);
+	auto h2 = std::make_shared<TestRouteHandler>();
+	router.newRoute()
+	.byMatcher(std::make_shared<HR_NS::RoutePathMatcher>("/article/{id:[0-9]+}"))
+	.withHandler(h2);
+
+	auto h3 = std::make_shared<TestRouteHandler>();
+	router.newRoute()
+	.byMatcher(std::make_shared<HR_NS::RoutePathMatcher>("/article/{id}"))
+	.withHandler(h3);
+
+	HttpServerRequestTest r1("GET", "/service/search/123");
+	ASSERT_TRUE(std::get<0>(router.findRoute(r1))->handler() == h1);
+
+	HttpServerRequestTest r2("GET", "/article/123");
+	ASSERT_TRUE(std::get<0>(router.findRoute(r2))->handler() == h2);
+
+	HttpServerRequestTest r3("GET", "/article/one123");
+	ASSERT_TRUE(std::get<0>(router.findRoute(r3))->handler() == h3);
 }
+
+/****************** Test Main ************************************************/
 
 int main(int argc, char** argv)
 {

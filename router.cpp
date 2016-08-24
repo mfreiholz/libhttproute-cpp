@@ -1,4 +1,4 @@
-#include <list>
+#include <vector>
 #include "router.h"
 #include "route.h"
 #include "route_match.h"
@@ -9,7 +9,7 @@ LIBHTTPROUTE_NS_BEGIN
 class Router::Private
 {
 public:
-	std::list<std::shared_ptr<Route> > routes;
+	std::vector<std::shared_ptr<Route> > routes;
 };
 
 Router::Router() :
@@ -19,41 +19,50 @@ Router::Router() :
 Router::~Router()
 {}
 
-Route& Router::newRoute()
+Route&
+Router::newRoute()
 {
 	auto r = std::make_shared<Route>();
 	d->routes.push_back(r);
 	return *r.get();
 }
 
-bool Router::handleRequest(const HttpServerRequest& req)
+std::tuple<std::shared_ptr<Route>, RouteMatch>
+Router::findRoute(const HttpServerRequest& req) const
+{
+	std::shared_ptr<Route> route;
+	RouteMatch rm;
+	for (auto r : d->routes)
+	{
+		RouteMatch tmprm;
+		if (r->matches(req, tmprm))
+		{
+			rm = std::move(tmprm);
+			route = r;
+			break;
+		}
+	}
+	return std::make_tuple(route, std::move(rm));
+}
+
+bool
+Router::handleRequest(const HttpServerRequest& req)
 {
 	try
 	{
 		// find matching route
-		RouteMatch rm;
-		std::shared_ptr<Route> route;
-		for (auto r : d->routes)
-		{
-			RouteMatch tmprm;
-			if (r->matches(req, tmprm))
-			{
-				rm = std::move(tmprm);
-				route = r;
-				break;
-			}
-		}
-		if (!route)
+		auto t = findRoute(req);
+		if (!std::get<0>(t))
 		{
 			return false;
 		}
 
 		// handle request with matching route
-		auto handler = route->handler();
+		auto handler = std::get<0>(t)->handler();
 		if (!handler)
 			return false;
 
-		handler->handle(req, rm);
+		handler->handle(req, std::get<1>(t));
 		return true;
 	}
 	catch (Exception& e)
