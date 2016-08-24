@@ -67,7 +67,7 @@ public:
 		return indices;
 	}
 
-	void parseGroups() noexcept
+	void parseGroups()
 	{
 		const auto indices = braceIndices(_tpl);
 		for (size_t i = 0; i < indices.size(); i = i + 2)
@@ -91,12 +91,12 @@ public:
 		}
 	}
 
-	void buildRegexp() //throws Exception
+	void buildRegexp()
 	{
 		std::string str;
 		if (_groups.size() <= 0)
 		{
-			_rx = std::regex(_tpl); //TODO escape `_tpl`
+			_rx = std::regex(mf_regex_escape(_tpl));
 			return;
 		}
 
@@ -132,7 +132,7 @@ public:
 			}
 			else
 			{
-				str += _tpl.at(i); //TODO escape `_tpl[i]`
+				str += mf_regex_escape(std::string(&_tpl.at(i), 1));
 				i++;
 			}
 		}

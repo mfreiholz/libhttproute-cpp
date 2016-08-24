@@ -35,13 +35,15 @@ add_library(
 
 # unit test
 if(WIN32)
-include_directories(../googletest/googletest/include)
-add_executable(
-	${PROJECT_NAME}_test
-	${headers}
-	${sources}
-	router_test.cpp
-)
+	include_directories(../googletest/googletest/include)
+	add_executable(
+		${PROJECT_NAME}_test
+		tests.cpp
+	)
+	target_link_libraries(
+		${PROJECT_NAME}_test
+		${PROJECT_NAME}
+	)
 endif(WIN32)
 if(WIN32)
 	target_link_libraries(

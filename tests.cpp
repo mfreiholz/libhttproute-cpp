@@ -180,6 +180,10 @@ TEST(Main, HostMatcher)
 	HttpServerRequestTest req("GET", "/", "www.example.de");
 	HR_NS::RouteMatch rm;
 	ASSERT_TRUE(m.match(req, rm));
+
+	HttpServerRequestTest req2("GET", "/", "www-example-de");
+	HR_NS::RouteMatch rm2;
+	ASSERT_FALSE(m.match(req2, rm2));
 }
 
 TEST(Main, HostMatcher2)
@@ -190,6 +194,11 @@ TEST(Main, HostMatcher2)
 	HR_NS::RouteMatch rm;
 	ASSERT_TRUE(m.match(req, rm));
 	ASSERT_STREQ(rm.vars.find("subdomain")->second.c_str(), "sub1");
+
+	// tests regex
+	HttpServerRequestTest req2("GET", "/", "sub1.example-de");
+	HR_NS::RouteMatch rm2;
+	ASSERT_FALSE(m.match(req2, rm2));
 }
 
 TEST(Main, HostMatcher3)

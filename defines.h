@@ -2,6 +2,7 @@
 
 #include <exception>
 #include <string>
+#include <regex>
 
 /* namespace defines */
 
@@ -33,13 +34,29 @@ public:
 		return _message;
 	}
 
-	/*virtual const char* what() const
-	{
+	/*  virtual const char* what() const
+	    {
 		return _message.c_str();
-	}*/
+	    }*/
 
 private:
 	std::string _message;
 };
+
+/*
+	Escapes all regex based characters with a `\`.
+	Characters: `. ^ $ | ( ) [ ] { } * + ? \`
+
+	\source https://stackoverflow.com/questions/1252992/how-to-escape-a-string-for-use-in-boost-regex/1253004#1253004
+*/
+inline std::string
+mf_regex_escape(std::string pattern)
+{
+	const std::regex esc("[.^$|()\\[\\]{}*+?\\\\]");
+	const std::string rep("\\\\&");
+	return std::regex_replace(pattern, esc, rep,
+							  std::regex_constants::match_default |
+							  std::regex_constants::format_sed);
+}
 
 LIBHTTPROUTE_NS_END
