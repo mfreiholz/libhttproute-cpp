@@ -13,6 +13,13 @@ public:
 	Router();
 	~Router();
 	Route& newRoute();
+
+	/*
+		findRoute searches for the matching `Route` of the request `req`.
+		\param req
+		\return Returns a valid `Route` as `std::get<0>(.)` result.
+			If no route matches the request, an invalid `Route` object will be returned.
+	*/
 	std::tuple<std::shared_ptr<Route>, RouteMatch> findRoute(const HttpServerRequest& req) const;
 
 	/*
