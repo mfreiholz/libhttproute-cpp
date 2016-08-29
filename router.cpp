@@ -45,6 +45,21 @@ Router::findRoute(const HttpServerRequest& req) const
 	return std::make_tuple(route, std::move(rm));
 }
 
+std::vector<std::tuple<std::shared_ptr<Route>, RouteMatch> >
+Router::findRoutes(const HttpServerRequest& req) const
+{
+	std::vector<std::tuple<std::shared_ptr<Route>, RouteMatch> > l;
+	for (auto r : d->routes)
+	{
+		RouteMatch tmprm;
+		if (r->matches(req, tmprm))
+		{
+			l.push_back(std::make_tuple(r, std::move(tmprm)));
+		}
+	}
+	return l;
+}
+
 bool
 Router::handleRequest(const HttpServerRequest& req)
 {
