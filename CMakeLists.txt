@@ -46,6 +46,7 @@ if(WIN32)
 	target_link_libraries(
 		${PROJECT_NAME}_test
 		${PROJECT_NAME}
-		../../googletest/googletest/msvc/gtest/Debug/gtestd
+		debug ../../googletest/googletest/msvc/gtest/Debug/gtestd
+		optimized ../../googletest/googletest/msvc/gtest/Release/gtest
 	)
 endif(WIN32)
