@@ -2,6 +2,7 @@
 #include "route.h"
 #include "route_matcher.h"
 #include "route_handler.h"
+#include "http_server_request.h"
 
 LIBHTTPROUTE_NS_BEGIN
 

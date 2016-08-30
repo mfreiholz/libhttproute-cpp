@@ -3,6 +3,7 @@
 #include "route.h"
 #include "route_match.h"
 #include "route_handler.h"
+#include "http_server_request.h"
 
 LIBHTTPROUTE_NS_BEGIN
 
@@ -28,7 +29,7 @@ Router::newRoute()
 }
 
 std::tuple<std::shared_ptr<Route>, RouteMatch>
-Router::findRoute(const HttpServerRequest& req) const
+Router::findFirstRoute(const HttpServerRequest& req) const
 {
 	std::shared_ptr<Route> route;
 	RouteMatch rm;
@@ -63,36 +64,20 @@ Router::findRoutes(const HttpServerRequest& req) const
 bool
 Router::handleRequest(const HttpServerRequest& req)
 {
-	try
+	// find matching route
+	auto t = findFirstRoute(req);
+	if (!std::get<0>(t))
 	{
-		// find matching route
-		auto t = findRoute(req);
-		if (!std::get<0>(t))
-		{
-			return false;
-		}
+		return false;
+	}
 
-		// handle request with matching route
-		auto handler = std::get<0>(t)->handler();
-		if (!handler)
-			return false;
+	// handle request with matching route
+	auto handler = std::get<0>(t)->handler();
+	if (!handler)
+		return false;
 
-		handler->handle(req, std::get<1>(t));
-		return true;
-	}
-	catch (Exception& e)
-	{
-		throw e;
-	}
-	catch (std::exception& e)
-	{
-		throw e;
-	}
-	catch (...)
-	{
-		throw;
-	}
-	return false;
+	handler->handle(req, std::get<1>(t));
+	return true;
 }
 
 LIBHTTPROUTE_NS_END

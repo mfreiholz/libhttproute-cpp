@@ -25,7 +25,7 @@ public:
 		\return Returns a valid `Route` as `std::get<0>(.)` result.
 			If no route matches the request, an invalid `Route` object will be returned.
 	*/
-	std::tuple<std::shared_ptr<Route>, RouteMatch> findRoute(const HttpServerRequest& req) const;
+	std::tuple<std::shared_ptr<Route>, RouteMatch> findFirstRoute(const HttpServerRequest& req) const;
 
 	/*
 	*/

@@ -268,13 +268,13 @@ TEST(Main, Router)
 	.withHandler(h3);
 
 	HttpServerRequestTest r1("GET", "/service/search/123");
-	ASSERT_TRUE(std::get<0>(router.findRoute(r1))->handler() == h1);
+	ASSERT_TRUE(std::get<0>(router.findFirstRoute(r1))->handler() == h1);
 
 	HttpServerRequestTest r2("GET", "/article/123");
-	ASSERT_TRUE(std::get<0>(router.findRoute(r2))->handler() == h2);
+	ASSERT_TRUE(std::get<0>(router.findFirstRoute(r2))->handler() == h2);
 
 	HttpServerRequestTest r3("GET", "/article/one123");
-	ASSERT_TRUE(std::get<0>(router.findRoute(r3))->handler() == h3);
+	ASSERT_TRUE(std::get<0>(router.findFirstRoute(r3))->handler() == h3);
 }
 
 /****************** Test Main ************************************************/
