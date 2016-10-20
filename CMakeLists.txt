@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 3.0)
 project(libhttproute)
 
+set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH};${PROJECT_SOURCE_DIR}/cmake")
+
+if(WIN32)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+endif(WIN32)
+
 if(CMAKE_COMPILER_IS_GNUCC)
 	# GCC 4.8.4 C++11
 	#set(CMAKE_CXX_FLAGS "-std=c++11")
@@ -37,8 +44,9 @@ add_library(
 )
 
 # unit test
-if(WIN32)
-	include_directories(../googletest/googletest/include)
+find_package(GoogleTest)
+if(GOOGLETEST_FOUND)
+	include_directories(${GOOGLETEST_INCLUDE_DIRS})
 	add_executable(
 		${PROJECT_NAME}_test
 		tests.cpp
@@ -46,7 +54,6 @@ if(WIN32)
 	target_link_libraries(
 		${PROJECT_NAME}_test
 		${PROJECT_NAME}
-		debug ../../googletest/googletest/msvc/gtest/Debug/gtestd
-		optimized ../../googletest/googletest/msvc/gtest/Release/gtest
+		${GOOGLETEST_LIBRARY}
 	)
-endif(WIN32)
+endif()

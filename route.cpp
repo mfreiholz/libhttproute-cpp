@@ -33,11 +33,12 @@ private:
 class Route::Private
 {
 public:
-	Private() {}
+	Private() : obj(NULL) {}
 
 public:
 	std::list<std::shared_ptr<RouteMatcher> > matchers;
 	std::shared_ptr<RouteHandler> handler;
+	void* obj;
 };
 
 Route::Route() :
@@ -65,9 +66,20 @@ Route& Route::withHandlerFunc(RouteHandlerFunc fn)
 	return *this;
 }
 
+Route& Route::withObject(void* obj)
+{
+	d->obj = obj;
+	return *this;
+}
+
 std::shared_ptr<RouteHandler> Route::handler() const
 {
 	return d->handler;
+}
+
+void* Route::object() const
+{
+	return d->obj;
 }
 
 bool Route::matches(const HttpServerRequest& req, RouteMatch& rm) const

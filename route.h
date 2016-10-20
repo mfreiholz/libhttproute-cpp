@@ -38,9 +38,19 @@ public:
 	Route& withHandlerFunc(RouteHandlerFunc fn);
 
 	/*
+		Sets a custom object for this route.
+	*/
+	Route& withObject(void* obj);
+
+	/*
 		\return Returns the `RouteHandler` of this `Route`.
 	*/
 	std::shared_ptr<RouteHandler> handler() const;
+
+	/*
+		\return Returns the custom `any` object of this route or NULL.
+	*/
+	void* object() const;
 
 	/*
 		Matches checks whether `this` Route matches with the request `req`
