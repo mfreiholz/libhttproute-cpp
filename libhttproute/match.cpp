@@ -99,7 +99,7 @@ public:
 			str = mf_regex_escape(_tpl);
 			if (_matchPath /*&& _matchPathTrailingSlash*/)
 			{
-				str.append("[/]*");
+				str.append("[/]{0,1}");
 			}
 			_rx = std::regex(str);
 			return;
@@ -143,7 +143,7 @@ public:
 		}
 		if (_matchPath/*&& _matchPathTrailingSlash*/)
 		{
-			str.append("[/]*");
+			str.append("[/]{0,1}");
 		}
 		_rx = std::regex(str);
 	}
