@@ -28,6 +28,9 @@ public:
 	std::tuple<std::shared_ptr<Route>, RouteMatch> findFirstRoute(const HttpServerRequest& req) const;
 
 	/*
+		findRoutes searches for all matching routes of the request `req`.
+		\return Returns a list with valid tuples.
+			If no route matches the request, the list will be empty.
 	*/
 	std::vector<std::tuple<std::shared_ptr<Route>, RouteMatch> > findRoutes(const HttpServerRequest& req) const;
 

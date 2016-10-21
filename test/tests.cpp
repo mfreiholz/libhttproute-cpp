@@ -1,8 +1,8 @@
-#include "defines.h"
-#include "router.h"
-#include "route.h"
-#include "route_handler.h"
-#include "route_matcher_impl.h"
+#include "libhttproute/defines.h"
+#include "libhttproute/router.h"
+#include "libhttproute/route.h"
+#include "libhttproute/route_handler.h"
+#include "libhttproute/route_matcher_impl.h"
 #include "gtest/gtest.h"
 
 /****************** HttpServerRequestTest ************************************/
@@ -115,8 +115,8 @@ TEST(Main, PathMatcher)
 	HttpServerRequestTest req("GET", "/products", "localhost");
 	ASSERT_TRUE(m.match(req, rm));
 
-	//HttpServerRequestTest req2("GET", "/products/", "localhost");
-	//ASSERT_TRUE(m.match(req2, rm));
+	HttpServerRequestTest req2("GET", "/products/", "localhost");
+	ASSERT_TRUE(m.match(req2, rm));
 }
 
 TEST(Main, PathMatcher2)
@@ -128,10 +128,20 @@ TEST(Main, PathMatcher2)
 	ASSERT_TRUE(m.match(req, rm));
 	ASSERT_STREQ(rm.vars.find("id")->second.c_str(), "42");
 
-	HttpServerRequestTest req2("GET", "/products/one", "localhost");
+	HttpServerRequestTest req2("GET", "/products/42/", "localhost");
 	HR_NS::RouteMatch rm2;
 	ASSERT_TRUE(m.match(req2, rm2));
-	ASSERT_STREQ(rm2.vars.find("id")->second.c_str(), "one");
+	ASSERT_STREQ(rm2.vars.find("id")->second.c_str(), "42");
+
+	HttpServerRequestTest req3("GET", "/products/one", "localhost");
+	HR_NS::RouteMatch rm3;
+	ASSERT_TRUE(m.match(req3, rm3));
+	ASSERT_STREQ(rm3.vars.find("id")->second.c_str(), "one");
+
+	HttpServerRequestTest req4("GET", "/products/one/", "localhost");
+	HR_NS::RouteMatch rm4;
+	ASSERT_TRUE(m.match(req4, rm4));
+	ASSERT_STREQ(rm4.vars.find("id")->second.c_str(), "one");
 }
 
 TEST(Main, PathMatcher3)

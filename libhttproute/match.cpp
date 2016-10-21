@@ -2,7 +2,7 @@
 #include <vector>
 #include "match.h"
 #include "route_match.h"
-#include "http_server_request.h"
+#include "request.h"
 
 LIBHTTPROUTE_NS_BEGIN
 
@@ -96,7 +96,12 @@ public:
 		std::string str;
 		if (_groups.size() <= 0)
 		{
-			_rx = std::regex(mf_regex_escape(_tpl));
+			str = mf_regex_escape(_tpl);
+			if (_matchPath /*&& _matchPathTrailingSlash*/)
+			{
+				str.append("[/]*");
+			}
+			_rx = std::regex(str);
 			return;
 		}
 
@@ -136,9 +141,11 @@ public:
 				i++;
 			}
 		}
+		if (_matchPath/*&& _matchPathTrailingSlash*/)
+		{
+			str.append("[/]*");
+		}
 		_rx = std::regex(str);
-		//if (!_rx.valid())
-		//	throw Exception("")
 	}
 
 	bool matchString(const std::string& s, RouteMatch& rm)

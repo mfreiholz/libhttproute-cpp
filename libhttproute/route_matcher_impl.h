@@ -5,7 +5,7 @@
 #include "defines.h"
 #include "route_matcher.h"
 #include "route_match.h"
-#include "http_server_request.h"
+#include "request.h"
 #include "match.h"
 
 LIBHTTPROUTE_NS_BEGIN
@@ -134,6 +134,8 @@ private:
 	"/products/"
 	"/products/{key}"
 	"/articles/{category}/{id:[0-9]+}"
+
+	Paths with trailing slash will match, too.
 */
 class RoutePathMatcher : public RouteMatcher
 {

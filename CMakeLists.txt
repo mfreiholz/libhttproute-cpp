@@ -21,20 +21,21 @@ endif(CMAKE_COMPILER_IS_GNUCC)
 
 # basic library sources
 set(headers
-	defines.h
-	http_server_request.h
-	match.h
-	route.h
-	route_match.h
-	route_handler.h
-	route_matcher.h
-	route_matcher_impl.h
-	router.h
+	libhttproute/defines.h
+	libhttproute/request.h
+	libhttproute/request_impl.h
+	libhttproute/match.h
+	libhttproute/route.h
+	libhttproute/route_match.h
+	libhttproute/route_handler.h
+	libhttproute/route_matcher.h
+	libhttproute/route_matcher_impl.h
+	libhttproute/router.h
 )
 set(sources
-	match.cpp
-	route.cpp
-	router.cpp
+	libhttproute/match.cpp
+	libhttproute/route.cpp
+	libhttproute/router.cpp
 )
 add_library(
 	${PROJECT_NAME}
@@ -46,14 +47,15 @@ add_library(
 # unit test
 find_package(GoogleTest)
 if(GOOGLETEST_FOUND)
+	include_directories(${PROJECT_SOURCE_DIR})
 	include_directories(${GOOGLETEST_INCLUDE_DIRS})
 	add_executable(
 		${PROJECT_NAME}_test
-		tests.cpp
+		test/tests.cpp
 	)
 	target_link_libraries(
 		${PROJECT_NAME}_test
 		${PROJECT_NAME}
 		${GOOGLETEST_LIBRARY}
 	)
-endif()
+endif(GOOGLETEST_FOUND)
