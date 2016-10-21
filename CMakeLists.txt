@@ -33,6 +33,7 @@ set(headers
 	libhttproute/router.h
 )
 set(sources
+	libhttproute/request_impl.cpp
 	libhttproute/match.cpp
 	libhttproute/route.cpp
 	libhttproute/router.cpp
