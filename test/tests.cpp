@@ -114,6 +114,10 @@ TEST(Main, HostMatcher)
 	HR_NS::HttpServerRequestImpl req2("GET", "/", "www-example-de");
 	HR_NS::RouteMatch rm2;
 	ASSERT_FALSE(m.match(req2, rm2));
+
+	HR_NS::HttpServerRequestImpl req3("GET", "/", "www.example.de:1337");
+	HR_NS::RouteMatch rm3;
+	ASSERT_TRUE(m.match(req3, rm3));
 }
 
 TEST(Main, HostMatcher2)

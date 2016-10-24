@@ -197,7 +197,7 @@ bool MatchRouteRegexp::match(const HttpServerRequest& req, RouteMatch& rm) const
 		size_t pos;
 		if ((pos = host.find(':')) != std::string::npos)
 		{
-			host = host.substr(pos);
+			host = host.substr(0, pos);
 		}
 		return d->matchString(host, rm);
 	}
