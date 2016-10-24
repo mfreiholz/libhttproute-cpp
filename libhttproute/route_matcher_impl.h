@@ -160,6 +160,13 @@ private:
 
 
 /*
+	THIS is a matcher for the URL's path. It accepts a simple static path,
+	but matches all requests, which have it as prefix.
+
+	A defined prefix path like `/images` will match:
+	- `/images`
+	- `/images/folder`
+	- `/images/folder/logo.png`
 */
 class RoutePathPrefixMatcher : public RouteMatcher
 {
@@ -224,6 +231,12 @@ private:
 
 
 /*
+	RouteSchemeMatcher matches requests of specific URL schemes.
+	If you add multiple schemes only one of it have to match.
+
+	Examples:
+	- `http`
+	- `https`
 */
 class RouteSchemeMatcher : public RouteMatcher
 {
