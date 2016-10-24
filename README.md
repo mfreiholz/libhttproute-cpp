@@ -9,9 +9,9 @@
 
 Here is a list of known implementations. Feel free to update it via pull-request.
 
-- Poco Framework ([libhttproute-poco](https://github.com/mfreiholz/libhttproute-poco))
+- [POCO](https://pocoproject.org/) C++ Libraries ([libhttproute-poco](https://github.com/mfreiholz/libhttproute-poco))
+- Qt Framework ([QHttp](https://github.com/azadkuh/qhttp), C++14) ([libhttproute-qhttp](https://github.com/mfreiholz/libhttproute-qhttp))
 - *Upcoming:* Boost Async (libhttproute-boost-async)
-- *Upcoming:* Qt HTTP Server ([libhttproute-qhttp](https://github.com/azadkuh/qhttp))
 - *Upcoming:* Facebook's HTTP Server (libhttproute-facebook)
 
 ## Get started example
