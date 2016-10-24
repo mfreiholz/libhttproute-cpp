@@ -176,7 +176,7 @@ TEST(Main, SchemeMatcher)
 class TestRouteHandler : public HR_NS::RouteHandler
 {
 public:
-	virtual void handle(const HR_NS::HttpServerRequest& req, const HR_NS::RouteMatch& m)
+	virtual void handle(const HR_NS::HttpServerRequest&, const HR_NS::RouteMatch&)
 	{}
 };
 

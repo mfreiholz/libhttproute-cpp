@@ -6,6 +6,11 @@
 
 LIBHTTPROUTE_NS_BEGIN
 
+/*
+	This class is the base starting point of your own implementation for routing
+	with your HTTP server. You need to create a sub-class and implement all
+	pure-virtual methods in order to make the routing work.
+*/
 class HttpServerRequest
 {
 public:
@@ -22,8 +27,8 @@ public:
 	virtual std::string getPath() const = 0;
 
 	/*
-		\return Returns the host. It may also include the port,
-			e.g. "localhost", "localhost:1337"
+		\return Returns the host. It may also include the port (if not 80 or 443),
+			e.g. "localhost", "localhost:1337", "127.0.0.1"
 	*/
 	virtual std::string getHost() const = 0;
 

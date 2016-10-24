@@ -26,7 +26,7 @@ public:
 	virtual ~RouteMethodMatcher()
 	{}
 
-	virtual bool match(const HttpServerRequest& req, RouteMatch& rm) const
+	virtual bool match(const HttpServerRequest& req, RouteMatch&) const
 	{
 		return req.getMethod().compare(_method) == 0;
 	}
@@ -63,7 +63,7 @@ public:
 	virtual ~RouteHeaderMatcher()
 	{}
 
-	virtual bool match(const HttpServerRequest& req, RouteMatch& rm) const
+	virtual bool match(const HttpServerRequest& req, RouteMatch&) const
 	{
 		if (req.hasHeader(_key))
 		{
@@ -171,7 +171,7 @@ public:
 	virtual ~RoutePathPrefixMatcher()
 	{}
 
-	virtual bool match(const HttpServerRequest& req, RouteMatch& rm) const
+	virtual bool match(const HttpServerRequest& req, RouteMatch&) const
 	{
 		return req.getPath().find(_prefix) != std::string::npos;
 	}
@@ -204,7 +204,7 @@ public:
 	virtual ~RouteQueryParamsMatcher()
 	{}
 
-	virtual bool match(const HttpServerRequest& req, RouteMatch& rm) const
+	virtual bool match(const HttpServerRequest& req, RouteMatch&) const
 	{
 		for (auto itr : _params)
 		{
@@ -241,7 +241,7 @@ public:
 	virtual ~RouteSchemeMatcher()
 	{}
 
-	virtual bool match(const HttpServerRequest& req, RouteMatch& rm) const
+	virtual bool match(const HttpServerRequest& req, RouteMatch&) const
 	{
 		for (const auto& scheme : _schemes)
 		{

@@ -108,7 +108,7 @@ public:
 		size_t gindex = 0;
 		for (size_t i = 0; i < _tpl.length();)
 		{
-			if (gindex < _groups.size() && i == _groups[gindex].begin)
+			if (gindex < _groups.size() && i == static_cast<size_t>(_groups[gindex].begin))
 			{
 				const auto& g = _groups[gindex];
 				if (g.validation.size() > 0)
