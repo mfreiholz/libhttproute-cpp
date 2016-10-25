@@ -5,6 +5,12 @@
 - No thirdparty dependencies (only STL)
 - It is easy to implement own matcher rules
 
+## Tested systems
+
+- Windows 10
+
+Does **NOT** work on **Linux**, because there is a problem with `std::regex` I will look into soon.
+
 ## Ready to use implementations
 
 Here is a list of known implementations. Feel free to update it via pull-request.
