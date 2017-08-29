@@ -5,7 +5,7 @@
 
 LIBHTTPROUTE_NS_BEGIN
 
-class RouteHandler
+class LIBHTTPROUTE_EXPORT_API RouteHandler
 {
 public:
 	virtual void handle(const HttpServerRequest& req, const RouteMatch& m) = 0;

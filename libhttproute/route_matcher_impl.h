@@ -16,7 +16,7 @@ LIBHTTPROUTE_NS_BEGIN
 	For example:
 	RouteMethodMatcher("GET");
 */
-class RouteMethodMatcher : public RouteMatcher
+class LIBHTTPROUTE_EXPORT_API RouteMethodMatcher : public RouteMatcher
 {
 public:
 	RouteMethodMatcher(const std::string& method)
@@ -47,7 +47,7 @@ private:
 	For example:
 	...
 */
-class RouteHeaderMatcher : public RouteMatcher
+class LIBHTTPROUTE_EXPORT_API RouteHeaderMatcher : public RouteMatcher
 {
 public:
 	RouteHeaderMatcher(const std::string& key, const std::vector<std::string>& values) :
@@ -102,7 +102,7 @@ private:
 
 	Note: The host will never contain port information!
 */
-class RouteHostMatcher : public RouteMatcher
+class LIBHTTPROUTE_EXPORT_API RouteHostMatcher : public RouteMatcher
 {
 public:
 	RouteHostMatcher(std::string tpl) :
@@ -137,7 +137,7 @@ private:
 
 	Paths with trailing slash will match, too.
 */
-class RoutePathMatcher : public RouteMatcher
+class LIBHTTPROUTE_EXPORT_API RoutePathMatcher : public RouteMatcher
 {
 public:
 	RoutePathMatcher(const std::string& tpl) :
@@ -168,7 +168,7 @@ private:
 	- `/images/folder`
 	- `/images/folder/logo.png`
 */
-class RoutePathPrefixMatcher : public RouteMatcher
+class LIBHTTPROUTE_EXPORT_API RoutePathPrefixMatcher : public RouteMatcher
 {
 public:
 	RoutePathPrefixMatcher(const std::string& prefix) :
@@ -201,7 +201,7 @@ private:
 
 	\todo Make it possible to use RegExp as value, e.g.: h.insert("id", "{id:[0-9]+}");
 */
-class RouteQueryParamsMatcher : public RouteMatcher
+class LIBHTTPROUTE_EXPORT_API RouteQueryParamsMatcher : public RouteMatcher
 {
 public:
 	RouteQueryParamsMatcher(std::map<std::string, std::string> params) :
@@ -238,7 +238,7 @@ private:
 	- `http`
 	- `https`
 */
-class RouteSchemeMatcher : public RouteMatcher
+class LIBHTTPROUTE_EXPORT_API RouteSchemeMatcher : public RouteMatcher
 {
 public:
 	RouteSchemeMatcher(const std::vector<std::string>& schemes) :

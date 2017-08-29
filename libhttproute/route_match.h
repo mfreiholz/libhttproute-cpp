@@ -10,7 +10,7 @@ LIBHTTPROUTE_NS_BEGIN
 	holds information about the matched route,
 	like template string defined variables in request path.
 */
-class RouteMatch
+class LIBHTTPROUTE_EXPORT_API RouteMatch
 {
 public:
 	std::map<std::string, std::string> vars;

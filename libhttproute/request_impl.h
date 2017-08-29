@@ -12,7 +12,7 @@ LIBHTTPROUTE_NS_BEGIN
 	for your real project, too. All members are public so you could store your
 	parsed HTTP request directly into this class and use it for routing.
 */
-class HttpServerRequestImpl :
+class LIBHTTPROUTE_EXPORT_API HttpServerRequestImpl :
 	public HttpServerRequest
 {
 public:

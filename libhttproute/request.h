@@ -11,7 +11,7 @@ LIBHTTPROUTE_NS_BEGIN
 	with your HTTP server. You need to create a sub-class and implement all
 	pure-virtual methods in order to make the routing work.
 */
-class HttpServerRequest
+class LIBHTTPROUTE_EXPORT_API HttpServerRequest
 {
 public:
 	/*

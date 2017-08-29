@@ -6,7 +6,7 @@
 
 LIBHTTPROUTE_NS_BEGIN
 
-class Route
+class LIBHTTPROUTE_EXPORT_API Route
 {
 public:
 	Route();

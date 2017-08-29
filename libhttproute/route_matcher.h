@@ -4,7 +4,7 @@
 
 LIBHTTPROUTE_NS_BEGIN
 
-class RouteMatcher
+class LIBHTTPROUTE_EXPORT_API RouteMatcher
 {
 public:
 	virtual bool match(const HttpServerRequest& req, RouteMatch& rm) const = 0;

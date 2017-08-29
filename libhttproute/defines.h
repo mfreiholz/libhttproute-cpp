@@ -4,6 +4,18 @@
 #include <string>
 #include <regex>
 
+/* dll import,export macros */
+
+#ifdef _WIN32
+	#if defined(LIBHTTPROUTE_EXPORT)
+		#define LIBHTTPROUTE_EXPORT_API __declspec(dllexport)
+	#else
+		#define LIBHTTPROUTE_EXPORT_API __declspec(dllexport)
+	#endif
+#else
+	#define LIBHTTPROUTE_EXPORT_API
+#endif
+
 /* namespace defines */
 
 #define LIBHTTPROUTE_NS_BEGIN namespace mf { namespace httproute {
@@ -18,7 +30,7 @@ class RouteMatcher;
 class RouteHandler;
 class RouteMatch;
 
-class Exception : public ::std::exception
+class LIBHTTPROUTE_EXPORT_API Exception : public ::std::exception
 {
 public:
 	Exception(const std::string& message) :
@@ -44,6 +56,7 @@ private:
 
 	\source https://stackoverflow.com/questions/1252992/how-to-escape-a-string-for-use-in-boost-regex/1253004#1253004
 */
+LIBHTTPROUTE_EXPORT_API
 inline std::string
 mf_regex_escape(std::string pattern)
 {

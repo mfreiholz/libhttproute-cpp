@@ -7,7 +7,7 @@
 LIBHTTPROUTE_NS_BEGIN
 class Route;
 
-class Router
+class LIBHTTPROUTE_EXPORT_API Router
 {
 public:
 	Router();

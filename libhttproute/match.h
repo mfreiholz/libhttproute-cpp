@@ -10,7 +10,7 @@ LIBHTTPROUTE_NS_BEGIN
 	builds a single big RegExp to match against host or path of current HTTP
 	request.
 */
-class MatchRouteRegexp
+class LIBHTTPROUTE_EXPORT_API MatchRouteRegexp
 {
 public:
 	/*
